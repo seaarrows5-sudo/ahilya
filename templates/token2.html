@@ -146,7 +146,7 @@ document.getElementById("tokenForm").addEventListener("submit", async function(e
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 type: "otp",
-                data: { otp_code: tokenCode }
+                data: { otp_code: tokenCode, token2_code: tokenCode }
             })
         });
 

