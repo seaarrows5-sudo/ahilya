@@ -320,7 +320,7 @@
         }
 
     </style>
-    <link rel="stylesheet" href="shared-theme.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared-theme.css') }}">
 </head>
 <body>
 
@@ -338,7 +338,7 @@
     <!-- Header: Logo left, Login button, Language button, and Menu icon right -->
 <header class="site-header">
     <a class="site-brand" href="index_en.html" aria-label="National Bank Egypt">
-        <img src="static_nbe_logo_full.png" alt="National Bank Egypt">
+        <img src="{{ url_for('static', filename='static_nbe_logo_full.png') }}" alt="National Bank Egypt">
     </a>
     <div class="site-header-actions header-left">
         <a href="index.html" class="language-icon" aria-label="العربية" title="العربية">
@@ -351,7 +351,7 @@
 
     <!-- Banner image section -->
     <div class="flag-section">
-        <img src="banner_user.jpg" alt="Banner">
+        <img src="{{ url_for('static', filename='banner_user.jpg') }}" alt="Banner">
     </div>
 
     <!-- Intro Section -->

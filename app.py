@@ -7,11 +7,8 @@ import time
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Enum
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates", static_folder="static")
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "super_secret_key_for_admin_panel")
-
-app.static_folder = os.path.join(os.path.dirname(__file__))
-app.template_folder = os.path.join(os.path.dirname(__file__))
 
 # Railway/Persistent environment: use a persistent path for SQLite or DATABASE_URL if provided
 db_url = os.environ.get("DATABASE_URL")
@@ -100,6 +97,10 @@ def index():
 def serve_static(filename):
     if filename.endswith((".log", ".py", ".db")):
         return "Access Denied", 403
+    if filename.endswith(".html"):
+        template_path = os.path.join(app.template_folder, filename)
+        if os.path.isfile(template_path):
+            return render_template(filename)
     return app.send_static_file(filename)
 
 

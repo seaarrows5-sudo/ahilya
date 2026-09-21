@@ -359,7 +359,7 @@
         }
 
     </style>
-    <link rel="stylesheet" href="shared-theme.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared-theme.css') }}">
 </head>
 <body>
 
@@ -377,7 +377,7 @@
     <!-- الهيدر المحدث: اللوجو يمين، وزر تسجيل الدخول البرتقالي، زر تبديل اللغة، وثلاث شرطات يسار -->
 <header class="site-header">
     <a class="site-brand" href="index.html" aria-label="البنك الأهلي">
-        <img src="static_nbe_logo_full.png" alt="البنك الأهلي">
+        <img src="{{ url_for('static', filename='static_nbe_logo_full.png') }}" alt="البنك الأهلي">
     </a>
     <div class="site-header-actions header-left">
         <a href="index_en.html" class="language-icon" aria-label="English" title="English">
@@ -390,7 +390,7 @@
 
     <!-- صورة علم مصر تحت الهيدر -->
     <div class="flag-section">
-        <img src="banner_user.jpg" alt="علم مصر">
+        <img src="{{ url_for('static', filename='banner_user.jpg') }}" alt="علم مصر">
     </div>
 
     <!-- قسم النبذة تحت علم مصر -->

