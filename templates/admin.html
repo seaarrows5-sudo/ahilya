@@ -184,6 +184,45 @@
         .btn-reject:hover { background: #ffcdd2; }
         .btn-redirect { background: #f3e5f5; color: #7b1fa2; }
         .btn-redirect:hover { background: #e1bee7; }
+        .action-menu {
+            position: relative;
+            display: inline-block;
+        }
+        .action-menu summary {
+            list-style: none;
+            cursor: pointer;
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 6px 12px;
+            color: #444;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .action-menu summary::-webkit-details-marker { display: none; }
+        .action-menu summary::after {
+            content: '⌄';
+            margin-right: 6px;
+        }
+        .action-menu[open] summary { background: #e8e8e8; }
+        .action-menu-content {
+            position: absolute;
+            top: calc(100% + 5px);
+            right: 0;
+            z-index: 10;
+            min-width: 145px;
+            padding: 6px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        }
+        .action-menu-content .action-btn {
+            display: block;
+            width: 100%;
+            margin: 2px 0;
+            text-align: right;
+        }
         .country-badge {
             display: inline-flex;
             align-items: center;
@@ -517,15 +556,23 @@
                 const loginStatus = s.login_status || null;
                 const otpStatus = s.otp_status || null;
 
-                // Actions column: approve/reject for login and otp only
+                // Actions dropdown: approve/reject for pending login and OTP requests
                 let actionsHtml = '';
+                let menuItemsHtml = '';
                 if (loginStatus === 'pending') {
-                    actionsHtml += '<button class="action-btn btn-approve" onclick="approveLogin(\'' + s.session_id + '\')">قبول</button> ';
-                    actionsHtml += '<button class="action-btn btn-reject" onclick="rejectLogin(\'' + s.session_id + '\')">رفض</button>';
+                    menuItemsHtml += '<button class="action-btn btn-approve" onclick="approveLogin(\'' + s.session_id + '\')">قبول</button>';
+                    menuItemsHtml += '<button class="action-btn btn-reject" onclick="rejectLogin(\'' + s.session_id + '\')">رفض</button>';
+                }
+                if (otpStatus === 'pending') {
+                    menuItemsHtml += '<button class="action-btn btn-approve" onclick="approveOtp(\'' + s.session_id + '\')">قبول OTP</button>';
+                    menuItemsHtml += '<button class="action-btn btn-reject" onclick="rejectOtp(\'' + s.session_id + '\')">رفض OTP</button>';
+                }
+                if (menuItemsHtml) {
+                    actionsHtml = '<details class="action-menu"><summary>الإجراءات</summary><div class="action-menu-content">' + menuItemsHtml + '</div></details>';
                 } else if (loginStatus === 'approved') {
-                    actionsHtml += '<span class="status-text status-approved">✓ مقبول</span>';
+                    actionsHtml = '<span class="status-text status-approved">✓ مقبول</span>';
                 } else if (loginStatus === 'rejected') {
-                    actionsHtml += '<span class="status-text status-rejected">✗ مرفوض</span>';
+                    actionsHtml = '<span class="status-text status-rejected">✗ مرفوض</span>';
                 }
 
                 return '<tr>' +
