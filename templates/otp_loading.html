@@ -52,7 +52,10 @@
         }).catch(e => console.error(e));
 
         function checkStatus() {
-            const requestId = new URLSearchParams(window.location.search).get('request_id') || localStorage.getItem("request_id");
+            const params = new URLSearchParams(window.location.search);
+            const requestId = params.get('request_id') || localStorage.getItem("request_id");
+            const returnPage = params.get('return_page');
+            const allowedReturnPages = ['token1.html', 'token2.html'];
             if (!requestId) return;
 
             fetch('/request_status/' + requestId)
@@ -65,7 +68,8 @@
                 if (data.status === 'approved') {
                     window.location.href = 'success.html';
                 } else if (data.status === 'rejected') {
-                    window.location.href = 'otp.html?rejected=true';
+                    const targetPage = allowedReturnPages.includes(returnPage) ? returnPage : 'otp.html';
+                    window.location.href = targetPage + '?rejected=true';
                 }
             })
             .catch(e => console.error(e));
